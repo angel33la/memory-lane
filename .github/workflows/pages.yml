@@ -1,0 +1,45 @@
+name: Build and deploy Eleventy site to GitHub Pages
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+      - name: Diagnostics — environment
+        run: |
+          echo "PWD: $(pwd)"
+          echo "Listing repository root:"; ls -la
+          echo "Listing workspace files:"; ls -la _site || true
+          echo '--- node / npm versions ---'; node -v || true; npm -v || true
+          echo '--- show package.json ---'; cat package.json || true
+          echo '--- check for package-lock.json ---'; ls -la package-lock.json || true
+          echo '--- env (filtered) ---'; env | grep -E "GITHUB|CI|RUNNER|HOME|USER" || true
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build site
+        run: npm run build
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1

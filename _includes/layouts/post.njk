@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{{ title }}{% if title %} — {% endif %}My Portfolio</title>
+    {% if summary %}<meta name="description" content="{{ summary }}">{% endif %}
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <nav id="navbar" class="nav">
+        <ul class="nav-list">
+          <li><a href="/index.html">Home</a></li>
+          <li><a href="/index.html#posts">Blog Posts</a></li>
+          <li><a href="/index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="blog-section post-page">
+      <article class="post-article">
+        <header class="post-header">
+          <h1>{{ title }}</h1>
+          {% if date %}
+          <p class="post-meta">Published <time datetime="{{ date }}">{{ date }}</time></p>
+          {% endif %}
+          {% if summary %}
+          <p class="post-summary">{{ summary }}</p>
+          {% endif %}
+        </header>
+
+        <hr class="post-divider" />
+
+        <section class="post-body">
+          {{ content | safe }}
+        </section>
+
+        <footer class="post-footer">
+          <p><a href="/index.html">&#8592; Back to home</a></p>
+        </footer>
+      </article>
+    </main>
+  </body>
+</html>

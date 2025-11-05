@@ -1,0 +1,18 @@
+# Node
+node_modules/
+npm-debug.log*
+package-lock.json
+
+# Eleventy / build
+_site/
+.cache/
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Env
+.env
