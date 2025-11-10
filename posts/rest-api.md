@@ -96,6 +96,7 @@ I was able to get a lot of useful information from the following resources:
 
 * [Using the Fetch API — MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 * [Fetching data from a server with useEffect — React docs](https://react.dev/reference/react/useEffect#fetching-data-from-a-server-with-useeffect)
+![Screenshot of source article](../assets/images/rest-api/screenshot.jpeg)
 * [How to work with RESTful APIs in React — freeCodeCamp](https://www.freecodecamp.org/news/how-work-with-restful-apis-in-react-simplified-steps-and-practical-examples/)
 
 [← Back to home](/index.html)
