@@ -92,4 +92,10 @@ When working with REST APIs in React, it's essential to follow best practices to
 
 By following these best practices and tips, you can create a well-structured, efficient, and maintainable React application that leverages REST APIs effectively. I know this is just scratching at the surface of what can be done with RESTful APIs and React, but I know that these were all very helpful for me and also reading through the documentation helps me more than anything else. So I encourage you to read through the official docs of whatever tools and technologies you are using as much as possible.
 
+I was able to get a lot of useful information from the following resources:
+
+* [Using the Fetch API — MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+* [Fetching data from a server with useEffect — React docs](https://react.dev/reference/react/useEffect#fetching-data-from-a-server-with-useeffect)
+* [How to work with RESTful APIs in React — freeCodeCamp](https://www.freecodecamp.org/news/how-work-with-restful-apis-in-react-simplified-steps-and-practical-examples/)
+
 [← Back to home](/index.html)
