@@ -4,42 +4,33 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       pages: write
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
-      - name: Diagnostics — environment
-        run: |
-          echo "PWD: $(pwd)"
-          echo "Listing repository root:"; ls -la
-          echo "Listing workspace files:"; ls -la _site || true
-          echo '--- node / npm versions ---'; node -v || true; npm -v || true
-          echo '--- show package.json ---'; cat package.json || true
-          echo '--- check for package-lock.json ---'; ls -la package-lock.json || true
-          echo '--- env (filtered) ---'; env | grep -E "GITHUB|CI|RUNNER|HOME|USER" || true
+          node-version: '18'
+
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: |
+          # prefer npm ci when lockfile exists, otherwise install
+          if [ -f package-lock.json ]; then npm ci --no-audit --no-fund; else npm install --no-audit --no-fund; fi
+
       - name: Build site
         run: npm run build
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: _site
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          # overwrite the branch contents so Pages serves the latest build
+          keep_files: false
