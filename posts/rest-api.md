@@ -88,6 +88,8 @@ When working with REST APIs in React, it's essential to follow best practices to
 
 **Performance Optimization**: Minimize the number of API calls by implementing caching strategies or using libraries like React Query or SWR. These libraries help manage server state and provide features like caching, background updates, and request deduplication, which can significantly improve performance. Additionally, optimizing images and reducing payload sizes can enhance overall performance. Using tools like Lighthouse or WebPageTest can help identify areas for improvement and optimize your application's performance.
 
+## Conclusion
+
 By following these best practices and tips, you can create a well-structured, efficient, and maintainable React application that leverages REST APIs effectively. I know this is just scratching at the surface of what can be done with RESTful APIs and React, but I know that these were all very helpful for me and also reading through the documentation helps me more than anything else. So I encourage you to read through the official docs of whatever tools and technologies you are using as much as possible.
 
 [← Back to home](/index.html)
