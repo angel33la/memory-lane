@@ -379,8 +379,7 @@ footer>p {
 
 @media screen and (width <=900px) {
     body {
-        height: 100vh;
-        overflow: hidden;
+        min-height: 100vh;
     }
 
     .nav {
