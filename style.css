@@ -91,7 +91,7 @@ h1 {
     background-clip: text;
     color: transparent;
     -webkit-text-stroke: 0.01em yellow;
-    filter: drop-shadow(0.05em 0.05em 0 red);
+    filter: drop-shadow(0.03em 0.03em 0 whitesmoke);
 }
 
 .welcome-section>h1>span {
@@ -293,7 +293,7 @@ h1 {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    -webkit-text-stroke: 0.01em orange;
+    -webkit-text-stroke: 0.01em yellow;
     filter: drop-shadow(0.03em 0.03em 0 whitesmoke);
 }
 
