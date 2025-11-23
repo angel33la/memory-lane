@@ -1,0 +1,100 @@
+---
+title: "JSON Web Token (JWT)"
+date: 2025-11-22
+summary: "An introduction to JSON Web Tokens (JWT), their structure, and how they are used for secure authentication."
+layout: post
+---
+
+JSON web tokens or JWTs are a way of securely transmitting information between parties as a JSON object.
+                        They can be signed using a secret key or public/private key pairs. This allows the recipient to verify that it was sent by the sender and hasn't been tampered with along the way. They are commonly used for securely transmitting information between parties, particularly in authentication and authorization flows in web applications and APIs.
+
+## Structure of a JWT
+
+ A JWT consists of three parts, separated by periods(.):
+
+- Header: The header typically consists of two parts: the type of token (JWT) and the signing algorithm being used, such as HMAC SHA256 or RSA.
+- Payload: The payload contains the claims. Claims are statements about an entity (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.
+- Signature: To create the signature part, you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
+
+## How JWTs Work
+
+When a user successfully logs in using their credentials, a JWT is returned. This token is then sent by the client in the Authorization header of subsequent requests to access protected resources. The server verifies the token's signature and, if valid, processes the request.
+
+## Benefits of Using JWTs
+
+- Stateless: JWTs are self-contained, meaning all the necessary information is included within the token itself. This allows for stateless authentication, reducing the need for server-side sessions.
+- Scalability: Since JWTs are stateless, they can be easily scaled across multiple servers without the need for session synchronization.
+- Flexibility: JWTs can be used across different domains and platforms, making them suitable for various applications, including mobile and web apps.
+
+I have left a code snippet from an example of what you might see in JWT when adding this to a 🔑👤user authentication, login.
+
+```javscript
+    const passport = require('passport');
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const JwtStrategy = require('passport-jwt').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../models/user');
+const config = require('../config');
+
+const localOptions = { usernameField: 'email' };
+
+const localLogin = new LocalStrategy(localOptions, async function (email, password, done) {
+    try {
+        console.log('Passport local strategy attempt - email:', email);
+        const user = await User.findOne({ email: email });
+        
+        if (!user) {
+            console.log('Passport local strategy user not found for email:', email);
+            return done(null, false);
+        }
+
+        console.log('Passport local strategy found user id:', user._id);
+        user.comparePassword(password, function (err, isMatch) {
+            if (err) {
+                console.log('Passport comparePassword error:', err);
+                return done(err);
+            }
+            console.log('Passport comparePassword result for user', user._id, ':', isMatch);
+            if (!isMatch) {
+                return done(null, false);
+            }
+            return done(null, user);
+        });
+    } catch (err) {
+        console.log('Passport local strategy error:', err);
+        return done(err);
+    }
+});
+
+
+const jwtOptions = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.secret
+};
+
+const jwtStrategy = new JwtStrategy(jwtOptions, async function (payload, done) {
+    try {
+        const user = await User.findById(payload.sub);
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+    } catch (err) {
+        return done(err, false);
+    }
+})
+
+passport.use(localLogin);
+passport.use(jwtStrategy);
+
+module.exports = passport;
+```
+
+This is just one example of how JWTs could be implemented into your application. It's important to note that while JWTs provide a convenient method for securing communication between clients and servers, they should still follow best practices for security, including proper handling of sensitive data and regular rotation of keys.
+
+Here is a [good article](https://www.freecodecamp.org/news/the-json-web-token-handbook-learn-to-use-jwts-for-web-authentication) about how they are used; JSON Web Token from freeCodeCamp.org:
+
+![An article about how they are used; json web token from freeCodeCamp.org](../../assets/images/json-web-token/screenshotJWT.jpg)
+
+[Back to home](../../index.html)
